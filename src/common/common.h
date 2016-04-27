@@ -80,4 +80,14 @@ inline bool string_to_number(const String &string, T &number)
 	return string.empty() || *bad_character == '\0';
 }
 
+//==============================================================================
+template<typename T>
+inline bool hexstring_to_number(const String &string, T &number)
+{
+	char *bad_character = NULL;
+	number = strtoul(string.c_str(), &bad_character, 16);
+
+	return string.empty() || *bad_character == '\0';
+}
+
 #endif // !_COMMON_H_
