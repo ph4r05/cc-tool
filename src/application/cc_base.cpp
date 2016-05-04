@@ -17,13 +17,22 @@
 static bool extract_usb_address(const String &str, uint_t &bus, uint_t &device)
 {
 	boost::cmatch what;
-	boost::regex regex("([\\da-fA-F]{1,4}):([\\da-fA-F]{1,4})");
+	boost::regex hex_regex("0x([\\da-fA-F]{1,4}):0x([\\da-fA-F]{1,4})");
+
+	if (boost::regex_match(str.c_str(), what, hex_regex))
+	{
+		hexstring_to_number(what[1].str(), bus);
+		hexstring_to_number(what[2].str(), device);
+		return true;
+	}
+
+	boost::regex regex("([\\d]{1,3}):([\\d]{1,3})");
 
 	if (!boost::regex_match(str.c_str(), what, regex))
 		return false;
 
-	hexstring_to_number(what[1].str(), bus);
-	hexstring_to_number(what[2].str(), device);
+	string_to_number(what[1].str(), bus);
+	string_to_number(what[2].str(), device);
 	return true;
 }
 
