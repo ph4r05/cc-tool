@@ -10,14 +10,12 @@ AM_LDFLAGS = \
 
 #	$(BOOST_THREADS_LDFLAGS)
       
-LDADD = $(LIBUSB_LIBS) 
-
-LIBS = -s \
+LDADD = $(LIBUSB_LIBS) \
 	$(BOOST_FILESYSTEM_LIBS) \
 	$(BOOST_REGEX_LIBS) \
 	$(BOOST_SYSTEM_LIBS) \
 	$(BOOST_PROGRAM_OPTIONS_LIBS)
-   
+
 #	$(BOOST_THREADS_LIBS)
 
 bin_PROGRAMS=cc-tool
@@ -30,4 +28,4 @@ cc_tool_SOURCES=src/main.cpp src/application/cc_flasher.cpp src/application/cc_b
 		src/programmer/cc_253x_254x.cpp src/programmer/cc_251x_111x.cpp \
 		src/programmer/cc_243x.cpp src/programmer/cc_programmer.cpp \
 		src/programmer/cc_unit_driver.cpp src/programmer/cc_unit_info.cpp
-
+cc_tool_LDFLAGS=-s
