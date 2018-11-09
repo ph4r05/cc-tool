@@ -9,6 +9,8 @@ Ubuntu: libusb-1.0, libboost-all-dev,
 Fedora: boost-devel, libusb1-devel
 Mac OS 10.6.7, from ports: libusb boost pkgconfig
 
+Regenerate Autotools files first by running ./bootstrap script.
+
 #### User guide:
 man cc-tool
 
