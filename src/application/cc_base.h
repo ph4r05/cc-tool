@@ -33,6 +33,7 @@ protected:
 
 	UnitInfo unit_info_;
 	CC_Programmer programmer_;
+	bool option_allow_overlapping_records_;
 
 private:
 	void on_help(const po::options_description &);

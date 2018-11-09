@@ -92,6 +92,10 @@ void CC_Base::init_options(po::options_description &desc)
 	desc.add_options()
 		("name,n", po::value<String>(&option_unit_name_),
 				"specify target name e.g. CC2530 etc.");
+
+	desc.add_options()
+		("allow-overlapping-records",
+				"allow overlapping records in hex files, the last one wins (by default: they are disallowed)");
 }
 
 //==============================================================================
@@ -127,6 +131,7 @@ bool CC_Base::read_options(const po::options_description &desc, const po::variab
 	}
 
 	option_fast_interface_speed_ = vm.count("fast") > 0;
+	option_allow_overlapping_records_ = vm.count("allow-overlapping-records") > 0;
 	return true;
 }
 
@@ -254,5 +259,6 @@ void CC_Base::process_tasks()
 
 //==============================================================================
 CC_Base::CC_Base() :
+		option_allow_overlapping_records_(false),
 		option_fast_interface_speed_(false)
 { }

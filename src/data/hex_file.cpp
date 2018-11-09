@@ -33,7 +33,8 @@ public:
 	Error read_next_record(const String &record_line);
 	Error read_complete();
 
-	HexDataReader(DataSectionStore &sections, bool ignore_crc);
+	HexDataReader(DataSectionStore &sections, bool ignore_crc,
+			bool allow_overlapping_records);
 
 private:
 	DataSectionStore &store_;
@@ -42,6 +43,7 @@ private:
 	//Error error_;
 	DataSection section_;
 	bool ignore_crc_;
+	bool allow_overlapping_records_;
 };
 
 struct Record
@@ -178,11 +180,13 @@ static HexDataReader::Error parse_record(const String &line, Record &record, boo
 }
 
 //==============================================================================
-HexDataReader::HexDataReader(DataSectionStore &store, bool ignore_crc) :
+HexDataReader::HexDataReader(DataSectionStore &store, bool ignore_crc,
+		bool allow_overlapping_records) :
 		store_(store),
 		address_prefix_(0),
 		section_started_(false),
-		ignore_crc_(ignore_crc)
+		ignore_crc_(ignore_crc),
+		allow_overlapping_records_(allow_overlapping_records)
 { }
 
 // Do not pass empty lines here!
@@ -203,7 +207,8 @@ HexDataReader::Error HexDataReader::read_next_record(const String &record_line)
 		record.address |= address_prefix_;
 		if (section_started_ && section_.next_address() != record.address)
 		{
-			if (!store_.add_section(section_, false))
+			if (!store_.add_section(section_,
+					allow_overlapping_records_))
 				return ERROR_SECTION_OVERLAPPING;
 
 			section_.data.clear();
@@ -229,14 +234,16 @@ HexDataReader::Error HexDataReader::read_next_record(const String &record_line)
 //==============================================================================
 HexDataReader::Error HexDataReader::read_complete()
 {
-	if (section_started_ && !store_.add_section(section_, false))
+	if (section_started_ && !store_.add_section(section_,
+			allow_overlapping_records_))
 		return ERROR_SECTION_OVERLAPPING;
 	return ERROR_OK;
 }
 
 //==============================================================================
 void hex_file_load(const String &file_name,
-		DataSectionStore &section_store, bool ignore_crc_mismatch)
+		DataSectionStore &section_store, bool ignore_crc_mismatch,
+		bool allow_overlapping_records)
 {
 	std::ifstream in(file_name.c_str());
 	if (!in)
@@ -245,7 +252,8 @@ void hex_file_load(const String &file_name,
 	HexDataReader::Error error = HexDataReader::ERROR_OK;
 	uint_t line_number = 0;
 
-	HexDataReader reader(section_store, ignore_crc_mismatch);
+	HexDataReader reader(section_store, ignore_crc_mismatch,
+		allow_overlapping_records);
 	String record_line;
 	while (in)
 	{
