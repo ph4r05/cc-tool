@@ -1,6 +1,6 @@
 11/08/2011 version 0.11
 	* first public release, alpha version
-	  
+
 11/10/2011 version 0.12
 	* fixed merge data sections bug
 	* add operation log
@@ -10,7 +10,7 @@
 
 01/11/2012 version 0.15
 	* fix compile time error on x64 machines
-	* minor changes 
+	* minor changes
 
 03/12/2012 version 0.16
 	* fixed CC debugger device USB PID value
@@ -27,16 +27,18 @@
 	* fixed mac address byte order
 
 10/26/2012 version 0.22
-	* added support for SmartRF04EB V1.1 programmer board (experemental)
+	* added support for SmartRF04EB V1.1 programmer board (experimental)
 	* added command line option --flash-size
 	* fixed mac address writing for CC243x
 
 11/24/2012 version 0.24
 	* updated autoconf scripts to support Mac OS
-	* lock type for --lock option now may be specifed by string like like debug, boot etc
-	* added support for CC2543, CC2544, CC2545 targets (experemental)   
+	* lock type for --lock option now may be specified by string like like debug, boot etc
+	* added support for CC2543, CC2544, CC2545 targets (experimental)
 	* bug fixing
-	
+
 03/01/1013 version 0.26
 	* fixed bug with -d option
 	* handle programmer devices those have no iProduct string descriptor
+
+Further changes are tracked in the project's Git history.

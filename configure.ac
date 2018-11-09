@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(cc-tool, 0.26, george-u@yandex.com)
+AC_INIT(cc-tool, 0.26+, george-u@yandex.com)
 AM_INIT_AUTOMAKE([no-dependencies foreign subdir-objects])
 AM_SILENT_RULES([yes])
 AC_CONFIG_MACRO_DIR([m4])
