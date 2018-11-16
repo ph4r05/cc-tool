@@ -74,12 +74,14 @@ static void print_hex_dump(const ByteVector &data)
 }
 
 //==============================================================================
-static void load_flash_data(const OptionFileInfo &file_info, DataSectionStore &section_store)
+static void load_flash_data(const OptionFileInfo &file_info, DataSectionStore &section_store,
+		bool allow_overlapping_records)
 {
 	if (file_info.type == "hex")
 	{
 		DataSectionStore sections;
-		hex_file_load(file_info.name, sections);
+		hex_file_load(file_info.name, sections, false,
+				allow_overlapping_records);
 		section_store.add_sections(sections, true);
 
 		size_t n = 0;
@@ -291,7 +293,8 @@ bool CC_Flasher::read_options(const po::options_description &desc, const po::var
 		{
 			OptionFileInfo file_info;
 			option_extract_file_info(item, file_info, true);
-			load_flash_data(file_info, flash_write_data_);
+			load_flash_data(file_info, flash_write_data_,
+					option_allow_overlapping_records_);
 		}
 	}
 
